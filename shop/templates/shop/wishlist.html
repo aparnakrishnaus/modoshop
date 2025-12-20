@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Wishlist {% endblock %}
+
+{% block content %}
+
+<style>
+.wishlist-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.wishlist-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.wishlist-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wishlist-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.wishlist-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.wishlist-card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.wishlist-card-body h4 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.price {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.price .original {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 6px;
+}
+
+.stock {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.stock.in-stock {
+    color: #28a745;
+}
+
+.stock.out-of-stock {
+    color: #dc3545;
+}
+
+.wishlist-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 8px;
+}
+
+.wishlist-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.view-btn {
+    background: #0d6efd;
+}
+
+.view-btn:hover {
+    background: #0b5ed7;
+}
+
+.remove-btn {
+    background: #dc3545;
+}
+
+.remove-btn:hover {
+    background: #b82b37;
+}
+
+.empty-state {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 40px;
+}
+.empty-wish-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff6b6b;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .empty-wish-btn:hover {
+        background-color: #e35e5e;
+        text-decoration: none;
+        color: #fff;
+    }
+</style>
+
+<div class="wishlist-container">
+    <h3 class="wishlist-title">My Wishlist 💖</h3>
+  <a href="{% url 'shop' %}" class="btn btn-outline-secondary mb-5">
+        <i class="bi bi-arrow-left"></i> Go Back
+    </a>
+    {% if items %}
+    <div class="wishlist-grid">
+        {% for item in items %}
+        <div class="wishlist-card">
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+            <div class="wishlist-card-body">
+                <h4>{{ item.product.name }}</h4>
+  <!-- Price -->
+        <div class="wishlist-price">
+            {% if item.product.offer_price %}
+                <span class="original text-muted" style="text-decoration: line-through;">
+                    ₹{{ item.product.price }}
+                </span>
+                <span class="offer text-danger fw-bold">
+                    ₹{{ item.product.offer_price|floatformat:2 }}
+                </span>
+            {% else %}
+                <span class="fw-bold">
+                    ₹{{ item.product.price|floatformat:2 }}
+                </span>
+            {% endif %}
+        </div>
+                <div class="stock {% if item.product.stock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if item.product.stock > 0 %}
+                        In Stock
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </div>
+
+                <div class="wishlist-buttons">
+                    <a href="{% url 'product_detail' item.product.slug %}" class="wishlist-btn view-btn bg-transparent">
+                        <i class="bi bi-eye text-info"></i>
+                    </a>
+
+                    <a href="{% url 'toggle_wishlist' item.product.id %}" class="wishlist-btn remove-btn bg-transparent">
+                        <i class="bi bi-trash text-danger"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+     <div class="text-center">
+        <p class="empty-state">Your wishlist is waiting to be filled ✨</p>
+        <a href="{% url 'home' %}" class="empty-wish-btn mt-3">Explore Now</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

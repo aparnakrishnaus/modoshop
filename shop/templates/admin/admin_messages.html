@@ -1,0 +1,119 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Contact Messages{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">Contact Messages</h2>
+
+    <div class="d-flex justify-content-end mb-3 w-25">
+    <button onclick="exportTableToExcel('messagesTable','admin_messages')" 
+            class="btn btn-success">
+        <i class="bi bi-file-earmark-excel"></i> Download Excel
+    </button>
+</div>
+
+
+    <table class="table table-bordered table-striped align-middle" id="messagesTable">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for msg in messages_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ msg.name }}</td>
+                <td>{{ msg.email }}</td>
+                <td>{{ msg.phone }}</td>
+                <td>{{ msg.message }}</td>
+                <td>{{ msg.created_at|date:"d M Y, h:i A" }}</td>
+                
+                <td>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/{{ msg.phone }}" 
+                       class="btn btn-success btn-sm" target="_blank">
+                       <i class="bi bi-whatsapp"></i>
+                    </a>
+
+                    <!-- Email -->
+                    <a href="mailto:{{ msg.email }}" 
+                       class="btn btn-primary btn-sm">
+                         <i class="bi bi-envelope-fill"></i>
+                    </a>
+
+                    <!-- Call -->
+                    <a href="tel:{{ msg.phone }}" 
+                       class="btn btn-info btn-sm">
+                         <i class="bi bi-telephone-fill"></i>
+                    </a>
+
+                    <!-- Delete -->
+                    <a href="{% url 'delete_message' msg.id %}" 
+                       class="btn btn-danger btn-sm mx-5"
+                       onclick="return confirm('Delete this message?')">
+                         <i class="bi bi-trash-fill"></i>
+                    </a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">No messages found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+function exportTableToExcel(tableID, filename = '') {
+    let table = document.getElementById(tableID).outerHTML;
+
+    // Excel file content proper format
+    let excelContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:x="urn:schemas-microsoft-com:office:excel"
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+            <!--[if gte mso 9]>
+            <xml>
+                <x:ExcelWorkbook>
+                    <x:ExcelWorksheets>
+                        <x:ExcelWorksheet>
+                            <x:Name>Sheet1</x:Name>
+                            <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+                        </x:ExcelWorksheet>
+                    </x:ExcelWorksheets>
+                </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+        </head>
+        <body>${table}</body>
+        </html>
+    `;
+
+    let blob = new Blob([excelContent], { type: "application/vnd.ms-excel" });
+    let url = URL.createObjectURL(blob);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = filename ? filename + ".xls" : "contact_messages.xls";
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+</script>
+
+
+{% endblock %}

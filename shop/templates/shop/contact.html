@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<style>
+/* Container styling */
+.container.py-5 {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 25px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Page heading */
+h2.text-center {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+}
+
+/* Alert messages */
+.alert {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* Form styling */
+form .form-label {
+    font-weight: 500;
+    color: #555;
+}
+
+form .form-control {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+    border-radius: 12px;
+}
+
+form .form-control:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+    outline: none;
+}
+
+/* Submit button */
+form .btn-primary {
+    background-color: #ff6b6b;
+    border: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+form .btn-primary:hover {
+    background-color: #ff4757;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container.py-5 {
+        padding: 30px 15px;
+    }
+
+    h2.text-center {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<div class="container py-5 mt-5 mb-3">
+    <h2 class="text-center mb-4">Contact Us</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="mx-auto" style="max-width:600px;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="tel" class="form-label">Your Phone</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required  pattern="[0-9]{10}" maxlength="10" >
+        </div>
+
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+    </form>
+</div>
+{% endblock %}

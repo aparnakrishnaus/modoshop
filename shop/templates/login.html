@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% include "includes/messages.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<style>
+    .forgot-password {
+    font-size: 0.875rem;
+    color: #ff6b6b;
+    text-decoration: none;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="height:80vh;">
+    <div class="login-card">
+        <h2>Login</h2>
+       <form method="POST">
+    {% csrf_token %}
+
+    
+    <input type="text" name="username" placeholder="Username" required class="form-control mb-3">
+    <input type="password" name="password" placeholder="Password" required class="form-control mb-1">
+    
+    <!-- Forgot Password Link -->
+    <div class="text-end mb-3">
+        <a href="{% url 'password_reset' %}" class="forgot-password">Forgot Password?</a>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+        <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+</div>
+
+<style>
+.login-card {
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    max-width: 400px;
+    width: 100%;
+}
+.login-card h2 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #ff6b6b;
+    color: white;
+    font-weight: 600;
+}
+.login-card button:hover {
+    background-color: #e05555;
+}
+.login-card .text-center a {
+    text-decoration: none;
+    color: #ff6b6b;
+}
+.login-card .text-center a:hover {
+    text-decoration: underline;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} - Modo{% endblock %}
+
+{% block extra_head %}
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.7;
+        color: #333;
+    }
+    h1, h2, h3 {
+        font-weight: 700;
+        color: #222;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+    }
+    h3 {
+        font-size: 1.3rem;
+        margin-top: 1.5rem;
+    }
+    p {
+        margin-bottom: 1rem;
+    }
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 900px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4 text-center">{{ page_title }}</h1>
+    
+    {% if page_title == "Privacy Policy" %}
+        <p>At <strong>Modo</strong>, your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+
+        <h4>Information We Collect</h4>
+        <p>We may collect your name, email address, shipping details, payment information, and order history to provide a seamless shopping experience.</p>
+
+        <h4>How We Use Information</h4>
+        <p>Your information is used to process orders, improve our services, communicate regarding purchases, and provide personalized recommendations.</p>
+
+        <h4>Data Sharing</h4>
+        <p>We do not sell your personal data. We may share information with trusted third-party services such as payment gateways and delivery partners strictly to fulfill your orders.</p>
+
+        <h4>Cookies</h4>
+        <p>Our website uses cookies to enhance browsing experience and analyze site usage.</p>
+
+        <h4>Your Rights</h4>
+        <p>You can access, update, or request deletion of your personal data by contacting us at <a href="mailto:support@modo.com">support@modo.com</a>.</p>
+
+    {% elif page_title == "Terms of Service" %}
+        <p>Welcome to <strong>Modo</strong>. By using our website, you agree to comply with these Terms of Service.</p>
+
+        <h4>Acceptance of Terms</h4>
+        <p>By accessing or using our website, you agree to these terms and any future updates.</p>
+
+        <h4>Accounts</h4>
+        <p>Users are responsible for maintaining account confidentiality and for all activities under their account.</p>
+
+        <h4>Prohibited Activities</h4>
+        <p>Users must not engage in illegal activities, fraud, hacking, or misuse of the website.</p>
+
+        <h4>Payments & Refunds</h4>
+        <p>All purchases on Modo are subject to our payment and refund policies, processed securely through trusted gateways.</p>
+
+        <h4>Intellectual Property</h4>
+        <p>All content, logos, images, and materials on Modo are protected by intellectual property laws. Unauthorized use is prohibited.</p>
+
+        <h4>Limitation of Liability</h4>
+        <p>Modo is not liable for any damages, losses, or inconveniences resulting from the use of our website.</p>
+
+        <h4>Changes to Terms</h4>
+        <p>We may update these terms from time to time. Continued use of the website indicates acceptance of the updated terms.</p>
+
+        <h4>Contact Us</h4>
+        <p>For questions regarding these Terms of Service, please contact <a href="mailto:aparnasukumaran9418@gmail.com">support@modo.com</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

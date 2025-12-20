@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .continue-btn{
+         background-color: #ff6b6b;
+         color: white;
+         transition: 0.3s;
+    }
+    .continue-btn:hover{
+     background-color: #ff4757;
+     color: white;
+    }
+</style>
+
+<div class="container py-5 text-center">
+    <h2>Payment Successful!</h2>
+    <p>Thank you for your order.</p>
+    <a href="{% url 'home' %}" class="btn  mt-3 continue-btn">Continue Shopping</a>
+    <a href="{% url 'orders' %}" class="btn  mt-3 continue-btn">My Order</a>
+</div>
+{% endblock %}

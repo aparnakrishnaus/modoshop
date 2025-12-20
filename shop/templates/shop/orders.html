@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Orders{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <h2 class="order-title">My Orders 🛍️</h2>
+    <a href="javascript:history.back()" class="btn btn-outline-secondary mb-3">
+        <i class="bi bi-arrow-left"></i> Go Back
+    </a>
+
+    {% if orders %}
+    <div class="row g-4">
+        {% for order in orders %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card order-card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+
+                    {% for item in order.items.all %}
+                    <h5 class="mb-3">{{ item.product.name }} </h5>
+                    <hr>
+                    <div class="d-flex align-items-center mb-2">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="order-item-img">
+                        {% else %}
+                        <img src="{% static 'images/default-product.png' %}" alt="No Image" class="order-item-img">
+                        {% endif %}
+                        <div class="ms-2">
+                            <div>Orderd at :{{ order.created_at|date:"d M Y" }}</div>
+                            <div>Quantity: {{ item.quantity }}</div>
+                            <div>Price: ₹{{ item.product.get_price|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="fw-bold">Total: ₹{{ order.total_price|floatformat:2 }}</span>
+                            {% if order.status == "Pending" %}
+                            <a href="{% url 'cancel_order' order.id %}" class="btn btn-sm btn-outline-danger">Cancel</a>
+                            {% endif %}
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge 
+                                        {% if order.status == 'Pending' %}bg-warning text-dark{% endif %}
+                                        {% if order.status == 'Completed' %}bg-success{% endif %}
+                                        {% if order.status == 'Cancelled' %}bg-danger{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </div>
+
+                        <a href="{% url 'user_delete_order' order.id %}" class="btn btn-sm  mt-2"
+                            onclick="return confirm('Remove this order from your list?');">
+                            <i class="fas fa-trash text-danger "></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center">
+        <p class="empty-state">No orders found 🚫 Ready to shop?</p>
+        <a href="{% url 'home' %}" class="shop-btn mt-3">Shop Now</a>
+    </div>
+
+
+    {% endif %}
+</div>
+
+<style>
+    .empty-state {
+        text-align: center;
+        font-size: 18px;
+        color: #777;
+        margin-top: 40px;
+    }
+
+    .order-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .shop-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff6b6b;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .shop-btn:hover {
+        background-color: #e35e5e;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .order-card {
+        border-radius: 12px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-item-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .badge {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}

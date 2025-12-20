@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<style>
+    .register-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        max-width: 450px;
+        width: 100%;
+    }
+
+    .register-card h2 {
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .register-card button {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background-color: #ff6b6b;
+        color: white;
+        font-weight: 600;
+    }
+
+    .register-card button:hover {
+        background-color: #e05555;
+    }
+
+    .register-card .text-center a {
+        text-decoration: none;
+        color: #ff6b6b;
+    }
+
+    .register-card .text-center a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+<div class="d-flex justify-content-center align-items-center" style="height:80vh;">
+    <div class="register-card">
+        <h2>Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% if messages %}
+            {% for msg in messages %}
+            <div class="alert alert-warning">{{ msg }}</div>
+            {% endfor %}
+            {% endif %}
+            <input type="text" name="username" placeholder="Full Name" required class="form-control mb-3">
+            <select name="gender" class="form-control mb-3" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <input type="email" name="email" placeholder="Email" required class="form-control mb-3">
+            <input type="password" name="password1" placeholder="Password" required class="form-control mb-3">
+            <input type="password" name="password2" placeholder="Confirm Password" required class="form-control mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</div>
+
+
+
+{% endblock %}

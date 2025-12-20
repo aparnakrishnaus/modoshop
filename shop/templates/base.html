@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Modo - Online Shop{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<style>
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.heart-btn {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      color: red;
+  }
+
+  .heart-btn.clicked {
+      animation: pop 0.35s ease forwards;
+  }
+
+  @keyframes pop {
+      0% {
+          transform: scale(1);
+      }
+
+      40% {
+          transform: scale(1.4);
+      }
+
+      60% {
+          transform: scale(0.9);
+      }
+
+      100% {
+          transform: scale(1.2);
+      }
+  }
+
+</style>
+
+<body>
+    
+{% include "includes/messages.html" %}
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top  py-3">
+    <div class="container d-flex align-items-center">
+
+        <!-- Brand -->
+        <div class="brand-cut px-3 py-2">
+            <a class="navbar-brand fw-bold fs-4" href="#">Modo</a>
+        </div>
+
+        <!-- Toggler button -->
+        <button class="navbar-toggler ms-3 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible nav links + profile -->
+        <div class="collapse navbar-collapse mt-1" id="navbarMenu">
+            <div class="nav-box px-2 py-2 d-flex align-items-center ms-auto flex-wrap justify-content-end" id="navBox">
+                <ul class="navbar-nav me-3 d-flex flex-row flex-wrap align-items-center">
+                    <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="{% url 'shop' %}">Shop</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+
+                {% if user.is_authenticated %}
+                <!-- Cart -->
+                <a href="{% url 'cart_page' %}" class="nav-item mb-2 mx-2 text-decoration-none d-flex align-items-center position-relative icon-link">
+                    <i class="bi bi-cart3 fs-5"></i>
+                    {% if cart_count %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger">{{ cart_count }}</span>
+                    {% endif %}
+                </a>
+
+                <!-- Wishlist -->
+                <a href="{% url 'wishlist_page' %}" class="nav-item mx-2 mb-2 text-decoration-none d-flex align-items-center icon-link">
+                    <i class="bi bi-heart fs-5"></i>
+                </a>
+
+                <!-- Profile -->
+                <div class="dropdown ms-3 d-flex align-items-center">
+                    <a class="d-flex align-items-center" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown">
+                        {% if request.user.profile.profile_image %}
+                        <img src="{{ request.user.profile.profile_image.url }}" class="rounded-circle" width="40" height="40" style="object-fit:cover;">
+                        {% else %}
+                        <img src="{% static 'images/default_avatar.png' %}" class="rounded-circle" width="40" height="40" style="object-fit:cover;">
+                        {% endif %}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'profile_page' %}">My Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'orders' %}">My Orders</a></li>
+                        <li><a class="dropdown-item" href="{% url 'wishlist_page' %}">Wishlist</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="dropdown ms-3 mb-2">
+    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="authDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Account
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="authDropdown">
+        <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+        <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+    </ul>
+</div>
+
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="site-wrapper">
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+        <!-- FOOTER -->
+
+       <footer class="footer mt-auto">
+    <div class="container text-center">
+        <p class="mb-2">© 2025 Modo — All Rights Reserved.</p>
+        <div class="footer-links d-flex flex-wrap justify-content-center gap-2">
+            <a href="{% url 'privacy_policy' %}">Privacy Policy</a> |
+            <a href="{% url 'terms_of_service' %}">Terms of Service</a> |
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+    </div>
+</footer>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+const heartBtn = document.querySelector('.heart-btn');
+heartBtn.addEventListener('click', () => {
+    heartBtn.classList.add('clicked');
+    setTimeout(() => heartBtn.classList.remove('clicked'), 350); // remove after animation
+});
+</script>
+</body>
+
+</html>

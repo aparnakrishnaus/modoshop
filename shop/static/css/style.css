@@ -1,0 +1,141 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+.navbar {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    position: relative;
+    z-index: 3;
+    background-color: #ffffff;
+}
+
+.brand-cut {
+    background-color: #ff6b6b;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+    border-radius: 8px;
+}
+
+#navBox {
+    background-color: #ffffff !important;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    background-clip: padding-box;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+    position: relative;
+    z-index: 20;
+}
+
+.nav-box .nav-link {
+    color: #333;
+    transition: color 0.3s ease;
+    background-color: transparent !important;
+    z-index: 3;
+}
+
+.nav-box .nav-link:hover {
+    color: #ff6b6b;
+}
+
+.nav-box .dropdown-toggle img {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nav-box .dropdown-toggle img:hover {
+    transform: scale(1.1);
+    border-color: #ff6b6b;
+}
+.navbar-collapse {
+    position: relative;
+    z-index: 15;
+}
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+
+
+
+/* ___________________________________________________________________________ */
+.footer {
+    background-color: #111;
+    color: #fff;
+    padding: 40px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.footer a {
+    color: #ff6b6b;
+    text-decoration: none;
+    margin: 0 8px;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #fff;
+}
+
+.footer-links {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.footer p,
+.footer-links {
+    font-size: 14px;
+}
+
+@media(min-width: 768px) {
+
+    .footer p,
+    .footer-links {
+        font-size: 16px;
+    }
+}
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+
+.icon-link i {
+    font-size: 1.25rem;
+    color: #333;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.icon-link:hover i {
+    color: #ff6b6b;
+    transform: scale(1.1);
+}
+
+.navbar .badge {
+    font-size: 0.65rem;
+    padding: 0.25em 0.4em;
+}
+

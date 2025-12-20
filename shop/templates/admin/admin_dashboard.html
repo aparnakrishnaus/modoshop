@@ -1,0 +1,124 @@
+{% extends "admin_base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+
+
+<h2>Dashboard Overview</h2>
+<div class="container">
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+        <a href="{% url 'products_page' %}" class="card">
+            <h3>Products</h3>
+            <span>{{ products_count }}</span>
+        </a>
+        <a href="{% url 'categories_page' %}" class="card">
+            <h3>Categories</h3>
+            <span>{{ categories_count }}</span>
+        </a>
+        <a href="{% url 'orders_page' %}" class="card">
+            <h3>Orders</h3>
+            <span>{{ orders_count }}</span>
+        </a>
+        <a href="{% url 'payments_page' %}" class="card">
+            <h3>Payments</h3>
+            <span>{{ payments_count }}</span>
+        </a> 
+
+        <a href="{% url 'gst_list' %}" class="card">
+            <h3>GST</h3>
+            <span>{{ gst_count }}</span>
+        </a>
+        <a href="{% url 'admin_messages' %}" class="card">
+            <h3>Messages</h3>
+            <span>{{ messages_count }}</span>
+        </a>
+
+    </div>
+
+    <!-- Recent Orders Table -->
+<h2>Recent Orders</h2>
+<table>
+    <tr>
+        <th>#</th>
+        <th>Order ID</th>
+        <th>User</th>
+        <th>Products</th>
+        <th>Total Quantity</th>
+        <th>Status</th>
+        <th>Total</th>
+    </tr>
+
+    {% for order in recent_orders %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ order.id }}</td>
+        <td>{{ order.booked_by.username }}</td>
+
+        <td>
+            {% for item in order.items.all %}
+                {{ item.product.name }} (x{{ item.quantity }})<br>
+            {% empty %}
+                -
+            {% endfor %}
+        </td>
+
+        <td>{{ order.items.all|length }}</td>
+
+                <td>
+    {% if order.status == "Pending" %}
+        <span class="status pending text-warning">Pending</span>
+    {% elif order.status == "Delivered" %}
+        <span class="status delivered text-success">Delivered</span>
+    {% elif order.status == "Cancelled" %}
+        <span class="status cancelled text-secondary">Cancelled</span>
+    {% else %}
+        <span class="status text-dark">{{ order.status }}</span>
+    {% endif %}
+</td>
+
+
+        <td>₹{{ order.total_price|floatformat:2 }}</td>
+
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8">No orders yet</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+    <!-- Recent Payments Table -->
+    <h2>Recent Payments</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Payment ID</th>
+            <th>User</th>
+            <th>Order ID</th>
+            <th>Method</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        {% for payment in recent_payments %}
+        <tr>
+             <td>{{ forloop.counter }}</td>
+            <td>{{ payment.id }}</td>
+            <td>{{ payment.order.user }}</td>
+            <td>{{ payment.order.id }}</td>
+            <td>{{ payment.method }}</td>
+            <td>₹{{ payment.amount }}</td>
+            <td><span class="status {% if payment.is_paid %}Completed{% else %}Pending{% endif %}">{% if payment.is_paid %}Paid{% else %}Pending{% endif %}</span></td>
+         
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No payments yet</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}

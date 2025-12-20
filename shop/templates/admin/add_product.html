@@ -1,0 +1,88 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+
+<style>
+    form input, 
+    form select, 
+    form textarea, 
+    form button {
+        width: 100%;
+        max-width: 600px; 
+        padding: 10px;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    form textarea {
+        height: 120px;
+        resize: vertical;
+    }
+</style>
+
+<h2>{% if product %}Edit{% else %}Add New{% endif %} Product</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Product Name" required 
+           value="{% if product %}{{ product.name }}{% endif %}">
+
+    <select name="category">
+        {% for cat in categories %}
+        <option value="{{ cat.id }}" 
+                {% if product and product.category.id == cat.id %}selected{% endif %}>
+            {{ cat.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <textarea name="description" placeholder="Product Description" required>
+        {{ product.description|default_if_none:"" }}
+    </textarea>
+
+    <input type="number" name="price" placeholder="Price" step="0.01" required 
+           value="{% if product %}{{ product.price }}{% endif %}">
+
+    <input type="number" name="offer_price" placeholder="Offer Price (Optional)" 
+           step="0.01" 
+           value="{% if product and product.offer_price %}{{ product.offer_price }}{% endif %}">
+
+    <input type="number" name="stock" placeholder="Stock" required 
+           value="{% if product %}{{ product.stock }}{% endif %}">
+
+  
+    <select name="gst">
+        <option value="">-- Select GST --</option>
+        {% for g in gst_list %}
+        <option value="{{ g.id }}" 
+                {% if product and product.gst and product.gst.id == g.id %}selected{% endif %}>
+            {{ g.name }} ({{ g.percent }}%)
+        </option>
+        {% endfor %}
+    </select>
+
+    <!-- GST Type -->
+    <select name="gst_type">
+    <option value="exclude" selected>
+        Exclude (GST already included)
+    </option>
+</select>
+
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <input type="file" name="image">
+    {% if product and product.image %}
+        <img src="{{ product.image.url }}" width="100" style="margin-top:10px;">
+    {% endif %}
+
+    <button type="submit">
+        {% if product %}Update{% else %}Add{% endif %} Product
+    </button>
+</form>
+
+{% endblock %}

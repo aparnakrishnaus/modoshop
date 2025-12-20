@@ -1,0 +1,130 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<style>
+       .btn-container {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: 0.3s;
+    }
+
+    .btn-deliver {
+        color: #28a745;
+        border: 1px solid #28a745;
+    }
+
+    .btn-deliver:hover {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn-delete {
+        color: #dc3545;
+        border: 1px solid #dc3545;
+    }
+
+    .btn-delete:hover {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-dash {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 50px;
+        height: 32px;
+        color: #999;
+    }
+
+</style>
+
+<div class="container">
+    <h2>All Orders</h2>
+
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Products</th>
+            <th> Qty</th>
+            <th>Address</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Actions</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ order.id }}</td>
+            <td>{{ order.booked_by.username }}</td>
+            <td>
+                {% for item in order.items.all %}
+                    {{ item.product.name }} (x{{ item.quantity }})<br>
+                {% empty %}
+                    -
+                {% endfor %}
+            </td>
+            <td>{{ order.total_quantity }}</td>
+            <td>{{ order.address }}</td> 
+            <td>{{ order.booked_at|date:"d/ m/ Y H:i a" }}</td>
+            <td>
+    {% if order.status == "Pending" %}
+        <span class="status pending text-warning">Pending</span>
+    {% elif order.status == "Delivered" %}
+        <span class="status delivered text-success">Delivered</span>
+    {% elif order.status == "Cancelled" %}
+        <span class="status cancelled text-secondary">Cancelled</span>
+    {% endif %}
+</td>
+
+            <td>₹{{ order.total_price }}</td>
+            <td>{{ order.payment_method|default:"N/A" }}</td>
+        <td>
+                <div class="btn-container">
+                    {% if order.status == "Pending" %}
+                        <a href="{% url 'mark_delivered' order.id %}" 
+                           class="btn btn-deliver"
+                           onclick="return confirm('Mark this order as delivered?');">
+                            <i class="fas fa-truck"></i>
+                        </a>
+                    {% else %}
+                        <span class="btn-dash">-</span>
+                    {% endif %}
+
+                    <a href="{% url 'delete_order' order.id %}" 
+                       class="btn btn-delete"
+                       onclick="return confirm('Are you sure to delete this order?');">
+                       <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            </td>
+
+
+        </tr>
+        {% empty %}
+        <tr><td colspan="9">No orders yet</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

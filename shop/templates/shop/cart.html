@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Cart {% endblock %}
+
+{% block content %}
+
+
+<div class="container py-4 ">
+    <h3 class="cart-title">My Cart 🛒</h3>
+
+       <a href="{%url 'shop'%}" class="btn btn-outline-secondary mb-5">
+        <i class="bi bi-arrow-left"></i> Go Back
+    </a>
+
+    {% if items %}
+    <div class="row">
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+            {% for item in items %}
+            <div class="card cart-card mb-3">
+                <div class="row g-2 align-items-center">
+                    <div class="col-3 col-md-2">
+                        <img src="{{ item.product.image.url }}" class="cart-img">
+                    </div>
+                    <div class="col-5 col-md-6">
+                        <h6 class="mb-1">{{ item.product.name }}</h6>
+                        {% if item.product.offer_price %}
+                        <p class="mb-1">
+                            <span class="text-danger fw-bold">₹{{ item.product.offer_price|floatformat:2 }}</span>
+                            <span class="text-muted text-decoration-line-through">₹{{ item.product.price|floatformat:2}}</span>
+                        </p>
+                        {% else %}
+                        <p class="mb-1">₹{{ item.product.price|floatformat:2 }}</p>
+                        {% endif %}
+                        <p class="mb-0">
+                            {% if item.product.stock > 0 %}
+                            <span class="text-success">In Stock</span>
+                            {% else %}
+                            <span class="text-danger">Out of Stock</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-4 col-md-4 d-flex flex-column align-items-end">
+                        <div class="d-flex align-items-center mb-2">
+                            <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-sm btn-outline-dark">−</a>
+                            <span class="px-2">{{ item.quantity }}</span>
+                            <a href="{% url 'increase_quantity' item.id %}" class="btn btn-sm btn-outline-dark">+</a>
+                        </div>
+                        <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-sm btn-danger">Remove</a>
+                        <small class="mt-2">Total: ₹{{ item.total_price|floatformat:2 }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Checkout Summary -->
+        <div class="col-lg-4">
+            <div class="checkout-box p-3 border rounded">
+                <h5>Cart Summary</h5>
+                <p>Total: ₹{{ total_amount|floatformat:2 }}</p>
+                <a href="{% url 'checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="text-center">
+        <p class="empty-state">Oops! Your cart is feeling lonely 😴 </p>
+        <a href="{% url 'home' %}" class="empty-cart-btn mt-3">Shop Now</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .cart-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+    .empty-cart-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff6b6b;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .empty-cart-btn:hover {
+        background-color: #e35e5e;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .cart-card {
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        min-height: 120px;
+        transition: 0.3s;
+    }
+
+    .cart-card:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .cart-img {
+        width: 100%;
+        max-width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .checkout-box {
+        position: sticky;
+        top: 20px;
+        max-width: 100%;
+        text-align: center;
+    }
+    .empty-state {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 40px;
+}
+</style>
+{% endblock %}

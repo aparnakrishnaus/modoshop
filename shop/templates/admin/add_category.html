@@ -1,0 +1,26 @@
+{% extends "admin_base.html" %}
+
+{% block title %}{% if category %}Edit Category{% else %}Add Category{% endif %}{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">{% if category %}Edit{% else %}Add New{% endif %} Category</h2>
+
+<form method="POST" enctype="multipart/form-data" class="mb-5">
+    {% csrf_token %}
+    
+    <input type="text" name="name" placeholder="Category Name" value="{{ category.name|default_if_none:'' }}" required>
+    
+    {% if category and category.image %}
+        <p>Current Image:</p>
+        <img src="{{ category.image.url }}" alt="{{ category.name }}" width="150">
+    {% endif %}
+    
+    <input type="file" name="image">
+    
+    <button type="submit" class="btn btn-primary mt-2">
+        {% if category %}Update Category{% else %}Add Category{% endif %}
+    </button>
+</form>
+
+{% endblock %}
