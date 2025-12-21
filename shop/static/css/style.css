@@ -5,8 +5,27 @@
     padding: 0;
     box-sizing: border-box;
 }
-html {
-    font-size: 16px; 
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 100%;
+    min-width: 320px;  
+    line-height: 1.5;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    width: 90%;       
+    max-width: 1200px;  
+    margin: 0 auto;     
 }
 
 body,
