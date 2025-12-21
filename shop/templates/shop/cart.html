@@ -6,7 +6,7 @@
 {% block content %}
 
 
-<div class="container py-4 ">
+<div class="cart-container ">
     <h3 class="cart-title">My Cart 🛒</h3>
 
        <a href="{%url 'shop'%}" class="btn btn-outline-secondary mb-5">
@@ -73,61 +73,4 @@
     {% endif %}
 </div>
 
-<style>
-    .cart-title {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    text-align: center;
-}
-    .empty-cart-btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #ff6b6b;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 6px;
-        transition: 0.3s;
-        font-weight: 500;
-    }
-
-    .empty-cart-btn:hover {
-        background-color: #e35e5e;
-        text-decoration: none;
-        color: #fff;
-    }
-
-    .cart-card {
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-        min-height: 120px;
-        transition: 0.3s;
-    }
-
-    .cart-card:hover {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    }
-
-    .cart-img {
-        width: 100%;
-        max-width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    .checkout-box {
-        position: sticky;
-        top: 20px;
-        max-width: 100%;
-        text-align: center;
-    }
-    .empty-state {
-    text-align: center;
-    font-size: 18px;
-    color: #777;
-    margin-top: 40px;
-}
-</style>
 {% endblock %}

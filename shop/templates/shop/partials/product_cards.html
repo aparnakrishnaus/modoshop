@@ -8,9 +8,9 @@
         <img src="{{ product.image.url }}" alt="{{ product.name }}"  class="card-img-top">
           {% endif %}
 
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card_text">
+            <div class="card-body d-flex flex-column shop-card-body">
+                <h5 class="shop-card-title">{{ product.name }}</h5>
+                <p class="shop_card_text">
                         <span class="text-danger fw-bold">₹{{ product.offer_price }}</span>
                         <small class="text-muted"><del>₹{{ product.price }}</del></small>
                     </p>
@@ -31,11 +31,11 @@
         </a>
 
         {% if product.id in wishlist_ids %}
-            <a href="{% url 'toggle_wishlist' product.id %}" class="heart-btn">
+            <a href="{% url 'toggle_wishlist' product.id %}" class="heart-btn heart-shop">
                 <i class="bi bi-heart-fill text-danger fs-5"></i>
             </a>
         {% else %}
-            <a href="{% url 'toggle_wishlist' product.id %}" class="heart-btn">
+            <a href="{% url 'toggle_wishlist' product.id %}" class="heart-btn heart-shop">
                 <i class="bi bi-heart fs-5"></i>
             </a>
         {% endif %}

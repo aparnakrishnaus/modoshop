@@ -3,65 +3,6 @@
 
 {% block content %}
 
-<style>
-    .btn-add-to-cart {
-        background-color: #ff6b6b;  /* warm red/pink */
-        border-color: #ff6b6b;
-        color: #fff;
-    }
-    .btn-add-to-cart:hover {
-        background-color: #ff5252;
-        border-color: #ff5252;
-    }
-
-    .btn-buy-now {
-        background-color: #1dd1a1;  /* fresh green */
-        border-color: #1dd1a1;
-        color: #fff;
-    }
-    .btn-buy-now:hover {
-        background-color: #10ac84;
-        border-color: #10ac84;
-    }
-
-    .btn-out-of-stock {
-        background-color: #576574;  /* muted gray */
-        border-color: #576574;
-        color: #fff;
-    }
-    .heart-btn {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-/* The heart icon itself */
-.heart-btn i {
-    font-size: 1.5rem;
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-/* Popup bubble */
-.heart-btn::after {
-    content: "Added to wishlist!";
-    position: absolute;
-    top: -35px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
-    background-color: #ff6b6b;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    opacity: 0;
-}
-
-
-</style>
-
 <div class="container py-4">
 
     <!-- Go Back Button -->
