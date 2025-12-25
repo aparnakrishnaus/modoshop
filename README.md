@@ -16,7 +16,6 @@ Check out the live site:https://modoshop.pythonanywhere.com/
 - Report download in PDF / Excel / Print
 - Admin Panel with CRUD operations and Date-based filtering for orders and reports
 
-
 ## Tech Stack
 - **Backend:** Django 4.1
 - **Frontend:** HTML, CSS, JavaScript, Bootstrap
@@ -42,9 +41,6 @@ Check out the live site:https://modoshop.pythonanywhere.com/
   <img src="https://github.com/user-attachments/assets/e87b4fa8-90bb-49ba-b493-5987505a06be" alt="Admin Dashboard" width="300" height="200">
 </div>
 
-
-
 ## Author
 **Aparna Krishna u s
-- clone: 
-- Email: aparnasukumaran9418@gmail.com
+- clone: https://github.com/aparnakrishnaus/modoshop.git
