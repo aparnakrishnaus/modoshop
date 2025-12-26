@@ -45,4 +45,4 @@ https://github.com/aparnakrishnaus/modoshop
 </div>
 
 ## Author
-**Aparna Krishna u s
+- Aparna Krishna u s
